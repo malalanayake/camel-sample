@@ -17,7 +17,7 @@ import camel.routing.monitor.Monitor;
  */
 @Component
 public class MessageProcessor implements Processor {
-		private static final String MESSAGE_PROCESSOR = "message-processor";
+		public static final String MESSAGE_PROCESSOR = "message-processor";
 		private Logger log = Logger.getLogger(this.getClass());
 
 		@Override
