@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Created-By: Apache Maven
+Built-By: Dinuka Malalanayake
+Build-Jdk: 1.8.0_25
+Implementation-Title: camel::routing
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: 
+Implementation-Vendor: Samples for Comunity
+Main-Class: camel.routing.Application
