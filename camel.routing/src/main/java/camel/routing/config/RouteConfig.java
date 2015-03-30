@@ -30,8 +30,7 @@ public class RouteConfig extends CamelConfiguration {
 				return new RouteBuilder() {
 						@Override
 						public void configure() throws Exception {
-								from("jms:queue:" + config.queueName).to("messageProcessor")
-								    .routeId("mySampleRoute");
+								from("jms:queue:" + config.queueName).to("messageProcessor").routeId("mySampleRoute");
 						}
 				};
 		}

@@ -18,13 +18,13 @@ import camel.routing.processor.MessageProcessor;
  */
 @Controller
 public class UIController {
-		
+
 		@RequestMapping(value = "/", method = RequestMethod.GET)
 		public String mainView(Model model) {
-			Meter meter=	Monitor.MATRICS.meter(MessageProcessor.MESSAGE_PROCESSOR);
+				Meter meter = Monitor.MATRICS.meter(MessageProcessor.MESSAGE_PROCESSOR);
 
-				model.addAttribute("count",meter.getCount());
-				model.addAttribute("mean",meter.getMeanRate());
+				model.addAttribute("count", meter.getCount());
+				model.addAttribute("mean", meter.getMeanRate());
 				return "index";
 		}
 }

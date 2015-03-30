@@ -37,20 +37,19 @@ public class RouteConfigTest extends CamelSpringTestSupport {
 		private MockEndpoint mockEndpoint;
 
 		public void configMockRoutes() throws Exception {
-				context.getRouteDefinition("mySampleRoute").adviceWith(context,
-								new AdviceWithRouteBuilder() {
+				context.getRouteDefinition("mySampleRoute").adviceWith(context, new AdviceWithRouteBuilder() {
 
-										/**
-										 * Mock the routes for testing
-										 */
-										@Override
-										public void configure() throws Exception {
+						/**
+						 * Mock the routes for testing
+						 */
+						@Override
+						public void configure() throws Exception {
 
-												interceptSendToEndpoint("jms:queue:" + queueName)
-																.skipSendToOriginalEndpoint().to("mock:bean:messageProcessor");
+								interceptSendToEndpoint("jms:queue:" + queueName).skipSendToOriginalEndpoint().to(
+								  "mock:bean:messageProcessor");
 
-										}
-								});
+						}
+				});
 
 		}
 

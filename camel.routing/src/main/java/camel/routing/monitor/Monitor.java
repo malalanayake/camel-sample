@@ -15,8 +15,7 @@ public class Monitor {
 
 		public static void startReport() {
 				ConsoleReporter reporter = ConsoleReporter.forRegistry(MATRICS)
-								.convertRatesTo(TimeUnit.SECONDS)
-								.convertDurationsTo(TimeUnit.MILLISECONDS).build();
+				  .convertRatesTo(TimeUnit.SECONDS).convertDurationsTo(TimeUnit.MILLISECONDS).build();
 				reporter.start(1, TimeUnit.SECONDS);
 		}
 

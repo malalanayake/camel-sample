@@ -25,7 +25,7 @@ public class MessageProcessor implements Processor {
 				Meter meter = Monitor.MATRICS.meter(MESSAGE_PROCESSOR);
 				meter.mark();
 				String input = (String) exchange.getIn().getBody(String.class);
-				
+
 				log.info("=====Need to process the data here=====");
 				log.info("Input message " + input);
 		}
