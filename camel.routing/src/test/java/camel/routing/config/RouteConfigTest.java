@@ -27,47 +27,47 @@ import camel.routing.Application;
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class RouteConfigTest extends CamelSpringTestSupport {
 
-		// Inject through Configuration class
-		@Autowired
-		private AbstractApplicationContext applicationContext;
+	// Inject through Configuration class
+	@Autowired
+	private AbstractApplicationContext applicationContext;
 
-		@Autowired
-		private String queueName;
+	@Autowired
+	private String queueName;
 
-		private MockEndpoint mockEndpoint;
+	private MockEndpoint mockEndpoint;
 
-		public void configMockRoutes() throws Exception {
-				context.getRouteDefinition("mySampleRoute").adviceWith(context, new AdviceWithRouteBuilder() {
+	public void configMockRoutes() throws Exception {
+		context.getRouteDefinition("mySampleRoute").adviceWith(context, new AdviceWithRouteBuilder() {
 
-						/**
-						 * Mock the routes for testing
-						 */
-						@Override
-						public void configure() throws Exception {
+			/**
+			 * Mock the routes for testing
+			 */
+			@Override
+			public void configure() throws Exception {
 
-								interceptSendToEndpoint("jms:queue:" + queueName).skipSendToOriginalEndpoint().to(
-								  "mock:bean:messageProcessor");
+				interceptSendToEndpoint("jms:queue:" + queueName).skipSendToOriginalEndpoint().to(
+					"mock:bean:messageProcessor");
 
-						}
-				});
+			}
+		});
 
-		}
+	}
 
-		@Test
-		public void messageRouteTest() throws Exception {
-				configMockRoutes();
-				mockEndpoint = getMockEndpoint("mock:bean:messageProcessor");
-				template.setDefaultEndpointUri("jms:queue:" + queueName);
+	@Test
+	public void messageRouteTest() throws Exception {
+		configMockRoutes();
+		mockEndpoint = getMockEndpoint("mock:bean:messageProcessor");
+		template.setDefaultEndpointUri("jms:queue:" + queueName);
 
-				mockEndpoint.setExpectedMessageCount(1);
-				template.sendBody("Test data");
+		mockEndpoint.setExpectedMessageCount(1);
+		template.sendBody("Test data");
 
-				assertMockEndpointsSatisfied();
-		}
+		assertMockEndpointsSatisfied();
+	}
 
-		@Override
-		protected AbstractApplicationContext createApplicationContext() {
-				return applicationContext;
-		}
+	@Override
+	protected AbstractApplicationContext createApplicationContext() {
+		return applicationContext;
+	}
 
 }

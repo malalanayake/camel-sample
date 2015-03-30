@@ -17,29 +17,29 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class RouteConfig extends CamelConfiguration {
-		@Autowired
-		Config config;
+	@Autowired
+	Config config;
 
-		/**
-		 * Message processing route
-		 * 
-		 * @return
-		 */
-		@Bean
-		RouteBuilder messageProcessingRoute() {
-				return new RouteBuilder() {
-						@Override
-						public void configure() throws Exception {
-								from("jms:queue:" + config.queueName).to("messageProcessor").routeId("mySampleRoute");
-						}
-				};
-		}
+	/**
+	 * Message processing route
+	 * 
+	 * @return
+	 */
+	@Bean
+	RouteBuilder messageProcessingRoute() {
+		return new RouteBuilder() {
+			@Override
+			public void configure() throws Exception {
+				from("jms:queue:" + config.queueName).to("messageProcessor").routeId("mySampleRoute");
+			}
+		};
+	}
 
-		/**
-		 * Expose all routes
-		 */
-		@Override
-		public List<RouteBuilder> routes() {
-				return Arrays.asList(messageProcessingRoute());
-		}
+	/**
+	 * Expose all routes
+	 */
+	@Override
+	public List<RouteBuilder> routes() {
+		return Arrays.asList(messageProcessingRoute());
+	}
 }

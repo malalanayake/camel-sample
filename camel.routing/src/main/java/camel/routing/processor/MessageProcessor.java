@@ -17,17 +17,17 @@ import camel.routing.monitor.Monitor;
  */
 @Component
 public class MessageProcessor implements Processor {
-		public static final String MESSAGE_PROCESSOR = "message-processor";
-		private Logger log = Logger.getLogger(this.getClass());
+	public static final String MESSAGE_PROCESSOR = "message-processor";
+	private Logger log = Logger.getLogger(this.getClass());
 
-		@Override
-		public void process(Exchange exchange) throws Exception {
-				Meter meter = Monitor.MATRICS.meter(MESSAGE_PROCESSOR);
-				meter.mark();
-				String input = (String) exchange.getIn().getBody(String.class);
+	@Override
+	public void process(Exchange exchange) throws Exception {
+		Meter meter = Monitor.MATRICS.meter(MESSAGE_PROCESSOR);
+		meter.mark();
+		String input = (String) exchange.getIn().getBody(String.class);
 
-				log.info("=====Need to process the data here=====");
-				log.info("Input message " + input);
-		}
+		log.info("=====Need to process the data here=====");
+		log.info("Input message " + input);
+	}
 
 }

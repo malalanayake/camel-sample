@@ -28,144 +28,144 @@ import camel.routing.monitor.Monitor;
 @Configuration
 public class Config extends CamelConfiguration {
 
-		// Inject activeMq url
-		@Value("${activemq.uri}")
-		String activeMQBrokerURL;
+	// Inject activeMq url
+	@Value("${activemq.uri}")
+	String activeMQBrokerURL;
 
-		// Inject activeMq username
-		@Value("${activemq.username}")
-		String activeMQUserName;
+	// Inject activeMq username
+	@Value("${activemq.username}")
+	String activeMQUserName;
 
-		// Inject activeMq passsword
-		@Value("${activemq.password}")
-		String activeMQPassword;
+	// Inject activeMq passsword
+	@Value("${activemq.password}")
+	String activeMQPassword;
 
-		// Inject queue name
-		@Value("${queue_name}")
-		String queueName;
+	// Inject queue name
+	@Value("${queue_name}")
+	String queueName;
 
-		public Config() {
-				Monitor.startReport();
-		}
+	public Config() {
+		Monitor.startReport();
+	}
 
-		/**
-		 * Expose queue name into camel context
-		 * 
-		 * @return
-		 */
-		@Bean
-		String queueName() {
-				return queueName;
-		}
+	/**
+	 * Expose queue name into camel context
+	 * 
+	 * @return
+	 */
+	@Bean
+	String queueName() {
+		return queueName;
+	}
 
-		/**
-		 * Expose default exchange message
-		 * 
-		 * @return
-		 */
-		@Bean
-		DefaultMessage exchangeMessage() {
-				return new DefaultMessage();
-		}
+	/**
+	 * Expose default exchange message
+	 * 
+	 * @return
+	 */
+	@Bean
+	DefaultMessage exchangeMessage() {
+		return new DefaultMessage();
+	}
 
-		/**
-		 * Expose the data formatter
-		 * 
-		 * @return
-		 */
-		@Bean
-		XmlJsonDataFormat xmlJsonDataFormat() {
-				XmlJsonDataFormat format = new XmlJsonDataFormat();
-				format.setEncoding("UTF-8");
-				return format;
-		}
+	/**
+	 * Expose the data formatter
+	 * 
+	 * @return
+	 */
+	@Bean
+	XmlJsonDataFormat xmlJsonDataFormat() {
+		XmlJsonDataFormat format = new XmlJsonDataFormat();
+		format.setEncoding("UTF-8");
+		return format;
+	}
 
-		/**
-		 * Expose actibve mq factory
-		 * 
-		 * @return
-		 */
-		@Bean
-		ConnectionFactory amqConnectionFactory() {
-				ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory();
-				factory.setBrokerURL(activeMQBrokerURL);
-				factory.setUserName(activeMQUserName);
-				factory.setPassword(activeMQPassword);
-				return factory;
-		}
+	/**
+	 * Expose actibve mq factory
+	 * 
+	 * @return
+	 */
+	@Bean
+	ConnectionFactory amqConnectionFactory() {
+		ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory();
+		factory.setBrokerURL(activeMQBrokerURL);
+		factory.setUserName(activeMQUserName);
+		factory.setPassword(activeMQPassword);
+		return factory;
+	}
 
-		/**
-		 * Expose activeMq component as "jms"
-		 * 
-		 * @return
-		 */
-		@Bean
-		ActiveMQComponent jms() {
-				ActiveMQComponent component = new ActiveMQComponent();
-				component.setConnectionFactory(connectionFactory());
-				component.setTransacted(true);
-				return component;
-		}
+	/**
+	 * Expose activeMq component as "jms"
+	 * 
+	 * @return
+	 */
+	@Bean
+	ActiveMQComponent jms() {
+		ActiveMQComponent component = new ActiveMQComponent();
+		component.setConnectionFactory(connectionFactory());
+		component.setTransacted(true);
+		return component;
+	}
 
-		@Bean
-		CsvDataFormat csv() {
-				return new CsvDataFormat();
-		}
+	@Bean
+	CsvDataFormat csv() {
+		return new CsvDataFormat();
+	}
 
-		/**
-		 * Expose connection factory
-		 * 
-		 * @return
-		 */
-		@Bean
-		ConnectionFactory connectionFactory() {
-				PooledConnectionFactory factory = new PooledConnectionFactory();
-				factory.setMaxConnections(3);
-				factory.setConnectionFactory(amqConnectionFactory());
-				return factory;
-		}
+	/**
+	 * Expose connection factory
+	 * 
+	 * @return
+	 */
+	@Bean
+	ConnectionFactory connectionFactory() {
+		PooledConnectionFactory factory = new PooledConnectionFactory();
+		factory.setMaxConnections(3);
+		factory.setConnectionFactory(amqConnectionFactory());
+		return factory;
+	}
 
-		/**
-		 * Expose re delivery policy
-		 * 
-		 * @return
-		 */
-		@Bean
-		RedeliveryPolicy redeliveryPolicy() {
-				RedeliveryPolicy policy = new RedeliveryPolicy();
-				policy.setMaximumRedeliveries(2);
-				policy.setRedeliveryDelay(1000);
-				policy.setLogHandled(true);
-				policy.setAllowRedeliveryWhileStopping(false);
-				policy.setRetryAttemptedLogLevel(LoggingLevel.INFO);
-				return policy;
-		}
+	/**
+	 * Expose re delivery policy
+	 * 
+	 * @return
+	 */
+	@Bean
+	RedeliveryPolicy redeliveryPolicy() {
+		RedeliveryPolicy policy = new RedeliveryPolicy();
+		policy.setMaximumRedeliveries(2);
+		policy.setRedeliveryDelay(1000);
+		policy.setLogHandled(true);
+		policy.setAllowRedeliveryWhileStopping(false);
+		policy.setRetryAttemptedLogLevel(LoggingLevel.INFO);
+		return policy;
+	}
 
-		/**
-		 * Expose default error handler
-		 * 
-		 * @return
-		 */
-		@Bean
-		DeadLetterChannelBuilder deadLetterErrorHandler() {
-				DeadLetterChannelBuilder builder = new DeadLetterChannelBuilder();
-				builder.setDeadLetterUri("direct:error");
-				builder.setUseOriginalMessage(true);
-				builder.setRedeliveryPolicy(redeliveryPolicy());
-				return builder;
-		}
+	/**
+	 * Expose default error handler
+	 * 
+	 * @return
+	 */
+	@Bean
+	DeadLetterChannelBuilder deadLetterErrorHandler() {
+		DeadLetterChannelBuilder builder = new DeadLetterChannelBuilder();
+		builder.setDeadLetterUri("direct:error");
+		builder.setUseOriginalMessage(true);
+		builder.setRedeliveryPolicy(redeliveryPolicy());
+		return builder;
+	}
 
-		/**
-		 * Congigure the internal resource view resolver
-		 * 
-		 * @return
-		 */
-		@Bean
-		public InternalResourceViewResolver initViewResolver() {
-				InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
-				internalResourceViewResolver.setPrefix("/WEB-INF/views/");
-				internalResourceViewResolver.setSuffix(".jsp");
-				return internalResourceViewResolver;
-		}
+	/**
+	 * Congigure the internal resource view resolver
+	 * 
+	 * @return
+	 */
+	@Bean
+	public InternalResourceViewResolver initViewResolver() {
+		InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
+		internalResourceViewResolver.setPrefix("/WEB-INF/views/");
+		internalResourceViewResolver.setSuffix(".jsp");
+		return internalResourceViewResolver;
+	}
 
 }

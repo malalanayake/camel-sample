@@ -12,18 +12,18 @@ import org.springframework.context.annotation.Configuration;
 @EnableAutoConfiguration(exclude = { org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class })
 public class Application extends SpringBootServletInitializer {
 
-		/**
-		 * 
-		 * @param args
-		 */
-		public static void main(String[] args) {
-				SpringApplication.run(Application.class, args);
-		}
+	/**
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+	}
 
-		@Override
-		protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-				return application.sources(applicationClass);
-		}
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(applicationClass);
+	}
 
-		private static Class<Application> applicationClass = Application.class;
+	private static Class<Application> applicationClass = Application.class;
 }
